@@ -11,7 +11,50 @@
   <meta property="og:description" content="Оптимальные настройки дисплея и графики на PS5: замеры экспертов, понятные пояснения и готовые пресеты.">
   <meta property="og:type" content="website">
 
-  <link rel="stylesheet" href="style.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0b0d12;--card:#151922;--border:#262c38;--text:#e8eaf0;--muted:#9aa3b2;--accent:#f5c518;--danger:#ff5d5d;--ok:#3ddc84}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6;min-height:100vh;display:flex;flex-direction:column}
+    a{color:inherit;text-decoration:none}
+    .header{position:sticky;top:0;z-index:10;background:rgba(11,13,18,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+    .header-container{max-width:1100px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .logo-link{display:flex;align-items:center;gap:10px}
+    .logo-text{font-weight:800;font-size:1.3rem;letter-spacing:-.02em}
+    .logo-accent{color:var(--accent)}
+    .logo-badge{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:2px 8px}
+    .nav-links a{color:var(--muted);font-size:.95rem}
+    .nav-links a.active,.nav-links a:hover{color:var(--text)}
+    .main{flex:1;max-width:1100px;width:100%;margin:0 auto;padding:40px 20px}
+    .hero{margin-bottom:32px}
+    .hero-title{font-size:clamp(2.2rem,8vw,3.5rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:12px}
+    .hero-desc{color:var(--muted);max-width:640px;font-size:1.05rem}
+    .hero-desc strong{color:var(--text)}
+    .controls-bar{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
+    .search-input{width:100%;padding:14px 16px;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:1rem}
+    .search-input:focus{outline:none;border-color:var(--accent)}
+    .filter-tags{display:flex;flex-wrap:wrap;gap:8px}
+    .filter-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:999px;font-size:.9rem;cursor:pointer;transition:.2s}
+    .filter-btn:hover{color:var(--text);border-color:var(--muted)}
+    .filter-btn.active{background:var(--accent);border-color:var(--accent);color:#111;font-weight:600}
+    .games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+    .game-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;display:flex;flex-direction:column;justify-content:space-between;gap:20px;transition:border-color .2s,transform .2s}
+    .game-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+    .game-title{font-size:1.3rem;margin-bottom:10px}
+    .badges-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+    .badge{font-size:.75rem;font-weight:600;padding:3px 10px;border-radius:6px}
+    .badge-platform{background:#1f3a8a33;color:#7aa2ff;border:1px solid #7aa2ff44}
+    .badge-broken{background:#ff5d5d1a;color:var(--danger);border:1px solid #ff5d5d44}
+    .badge-ok{background:#3ddc841a;color:var(--ok);border:1px solid #3ddc8444}
+    .game-summary{color:var(--muted);font-size:.95rem}
+    .btn-card{display:inline-block;text-align:center;padding:12px;border-radius:10px;background:#ffffff0d;border:1px solid var(--border);font-weight:600;transition:.2s}
+    .btn-card:hover{background:var(--accent);color:#111;border-color:var(--accent)}
+    .empty{color:var(--muted);text-align:center;padding:40px 0;display:none}
+    .footer{border-top:1px solid var(--border);text-align:center;padding:24px 20px;color:var(--muted);font-size:.85rem}
+    .back-to-top{position:fixed;right:20px;bottom:20px;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.2rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .2s}
+    .back-to-top.visible{opacity:1;pointer-events:auto}
+    @media (min-width:720px){.controls-bar{flex-direction:row;align-items:center}.search-input{flex:1}}
+  </style>
 </head>
 <body>
 
@@ -65,6 +108,7 @@
         <a href="cyberpunk-2077.html" class="btn-card">Смотреть настройки →</a>
       </article>
     </div>
+    <p id="emptyState" class="empty">Ничего не найдено</p>
   </main>
 
   <footer class="footer">
@@ -73,6 +117,37 @@
 
   <button id="backToTop" class="back-to-top" title="Наверх" aria-label="Наверх">↑</button>
 
-  <script src="script.js"></script>
+  <script>
+    const search = document.getElementById('gameSearch');
+    const buttons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.game-card');
+    const empty = document.getElementById('emptyState');
+    let filter = 'all';
+
+    function apply() {
+      const q = search.value.trim().toLowerCase();
+      let shown = 0;
+      cards.forEach(card => {
+        const title = card.querySelector('.game-title').textContent.toLowerCase();
+        const matchFilter = filter === 'all' || card.dataset.platform === filter || card.dataset.status === filter;
+        const visible = matchFilter && title.includes(q);
+        card.style.display = visible ? '' : 'none';
+        if (visible) shown++;
+      });
+      empty.style.display = shown ? 'none' : 'block';
+    }
+
+    search.addEventListener('input', apply);
+    buttons.forEach(btn => btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filter = btn.dataset.filter;
+      apply();
+    }));
+
+    const toTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => toTop.classList.toggle('visible', window.scrollY > 300));
+    toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
 </body>
 </html>
