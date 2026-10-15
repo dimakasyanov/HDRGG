@@ -18,13 +18,13 @@
   <header class="header">
     <div class="header-container">
       <div class="logo">
-        <a href="index.html" class="logo-link">
+        <a href="./" class="logo-link">
           <span class="logo-text">HDR<span class="logo-accent">.GG</span></span>
           <span class="logo-badge">Console Guide</span>
         </a>
       </div>
       <nav class="nav-links">
-        <a href="index.html" class="active">Каталог игр</a>
+        <a href="./" class="active">Каталог игр</a>
       </nav>
     </div>
   </header>
@@ -38,10 +38,11 @@
     </section>
 
     <div class="controls-bar">
-      <input type="text" id="gameSearch" class="search-input" placeholder="Поиск по названию игры (например, Cyberpunk 2077)..." autocomplete="off">
+      <input type="text" id="gameSearch" class="search-input" placeholder="Поиск по названию игры (например, Cyberpunk 2077, Spider-Man 2)..." autocomplete="off">
       <div class="filter-tags">
         <button class="filter-btn active" data-filter="all">Все игры</button>
         <button class="filter-btn" data-filter="ps5">PlayStation 5</button>
+        <button class="filter-btn" data-filter="system-hdr">System HDR (1:1)</button>
         <button class="filter-btn" data-filter="sdr-rec">SDR Рекомендован</button>
         <button class="filter-btn" data-filter="native-ok">Native OK</button>
       </div>
@@ -62,7 +63,203 @@
             Нативный HDR поднимает точку чёрного и создаёт серую дымку в тёмных сценах. Эксперты HDTVTest рекомендуют отключить HDR и выставить гамму 1.1 для глубокого контраста.
           </p>
         </div>
-        <a href="cyberpunk-2077.html" class="btn-card">Смотреть настройки →</a>
+        <a href="games/cyberpunk-2077/" class="btn-card">Смотреть настройки →</a>
+      </article>
+
+      <!-- Marvel's Spider-Man 2 -->
+      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
+        <div>
+          <div class="game-header">
+            <h2 class="game-title">Marvel's Spider-Man 2</h2>
+          </div>
+          <div class="badges-row">
+            <span class="badge badge-platform">PS5</span>
+            <span class="badge badge-system">System HDR (1:1)</span>
+          </div>
+          <p class="game-summary">
+            Эталонная привязка к системной калибровке PS5 (HGiG) с чистым нулевым чёрным. Внутри игры ползунки Brightness и Contrast оставить по умолчанию (<code>50</code>).
+          </p>
+        </div>
+        <div class="card-sources">
+          <a href="https://www.hdrgamer.com/2023/10/marvels-spider-man-2-hdr-settings.html" target="_blank" rel="noopener noreferrer" class="btn-card">HDRGamer ↗</a>
+          <a href="https://www.youtube.com/watch?v=6RADQQoK1A8" target="_blank" rel="noopener noreferrer" class="btn-card">GamingTech ↗</a>
+        </div>
+      </article>
+
+      <!-- Marvel's Spider-Man: Miles Morales / Remastered -->
+      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
+        <div>
+          <div class="game-header">
+            <h2 class="game-title">Spider-Man: Miles Morales / Remastered</h2>
+          </div>
+          <div class="badges-row">
+            <span class="badge badge-platform">PS5</span>
+            <span class="badge badge-system">System HDR (1:1)</span>
+          </div>
+          <p class="game-summary">
+            Точно считывает пиковую яркость и уровень чёрного из системного меню PS5. В игре оставить Brightness <code>50</code> и Contrast <code>0</code> (дефолт).
+          </p>
+        </div>
+        <div class="card-sources">
+          <a href="https://www.hdrgamer.com/2022/02/marvels-spider-man-miles-morales-hdr.html" target="_blank" rel="noopener noreferrer" class="btn-card">HDRGamer ↗</a>
+          <a href="https://www.youtube.com/watch?v=4Z_oJeHB-9E" target="_blank" rel="noopener noreferrer" class="btn-card">HDTVTest ↗</a>
+        </div>
+      </article>
+
+      <!-- God of War Ragnarök -->
+      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
+        <div>
+          <div class="game-header">
+            <h2 class="game-title">God of War Ragnarök</h2>
+          </div>
+          <div class="badges-row">
+            <span class="badge badge-platform">PS5</span>
+            <span class="badge badge-system">System HDR (1:1)</span>
+          </div>
+          <p class="game-summary">
+            Честно берёт пик и точку чёрного от системы PS5 без искажений. Внутриигровой ползунок <code>HDR Brightness = 50</code> отвечает только за средние тона.
+          </p>
+        </div>
+        <div class="card-sources">
+          <a href="https://www.hdrgamer.com/2022/11/god-of-war-ragnarok-hdr-settings.html" target="_blank" rel="noopener noreferrer" class="btn-card">HDRGamer ↗</a>
+          <a href="https://www.youtube.com/watch?v=zZSlhTzvuTs" target="_blank" rel="noopener noreferrer" class="btn-card">GamingTech ↗</a>
+        </div>
+      </article>
+
+      <!-- Ghost of Tsushima Director's Cut -->
+      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
+        <div>
+          <div class="game-header">
+            <h2 class="game-title">Ghost of Tsushima Director's Cut</h2>
+          </div>
+          <div class="badges-row">
+            <span class="badge badge-platform">PS5</span>
+            <span class="badge badge-system">System HDR (1:1)</span>
+          </div>
+          <p class="game-summary">
+            Референсный HDR на PS5 с точной системной калибровкой. Внутриигровой параметр <code>Brightness</code> (<code>50–70</code>) регулирует только общую экспозицию.
+          </p>
+        </div>
+        <div class="card-sources">
+          <a href="https://www.hdrgamer.com/2022/02/ghost-of-tsushima-ps5-hdr-settings.html" target="_blank" rel="noopener noreferrer" class="btn-card">HDRGamer ↗</a>
+          <a href="https://www.youtube.com/watch?v=10AkEy0HC-I" target="_blank" rel="noopener noreferrer" class="btn-card">GamingTech ↗</a>
+        </div>
+      </article>
+
+      <!-- Call of Duty: Black Ops 6 (и MW II / III) -->
+      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
+        <div>
+          <div class="game-header">
+            <h2 class="game-title">Call of Duty: Black Ops 6 (MW II / III)</h2>
+          </div>
+          <div class="badges-row">
+            <span class="badge badge-platform">PS5</span>
+            <span class="badge badge-system">System HDR (1:1)</span>
+          </div>
+          <p class="game-summary">
+            Напрямую подтягивает все 3 шага системной калибровки PS5. Пик совпадает 1:1 с консолью, ручная настройка нит внутри игры не требуется.
+          </p>
+        </div>
+        <div class="card-sources">
+          <a href="https://www.hdrgamer.com/2024/11/call-of-duty-black-ops-6-hdr-settings.html" target="_blank" rel="noopener noreferrer" class="btn-card">HDRGamer ↗</a>
+          <a href="https://www.youtube.com/watch?v=65luEPaMoEc" target="_blank" rel="noopener noreferrer" class="btn-card">GamingTech ↗</a>
+        </div>
+      </article>
+
+      <!-- Ratchet & Clank: Rift Apart -->
+      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
+        <div>
+          <div class="game-header">
+            <h2 class="game-title">Ratchet & Clank: Rift Apart</h2>
+          </div>
+          <div class="badges-row">
+            <span class="badge badge-platform">PS5</span>
+            <span class="badge badge-system">System HDR (1:1)</span>
+          </div>
+          <p class="game-summary">
+            Движок Insomniac с честной поддержкой системного HGiG, нулевым чёрным и широким цветовым охватом (WCG). Дополнительная подгонка пика не требуется.
+          </p>
+        </div>
+        <div class="card-sources">
+          <a href="https://www.youtube.com/watch?v=eNMEu1SCHe8" target="_blank" rel="noopener noreferrer" class="btn-card">HDTVTest ↗</a>
+        </div>
+      </article>
+
+      <!-- Horizon Forbidden West -->
+      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
+        <div>
+          <div class="game-header">
+            <h2 class="game-title">Horizon Forbidden West</h2>
+          </div>
+          <div class="badges-row">
+            <span class="badge badge-platform">PS5</span>
+            <span class="badge badge-system">System HDR (1:1)</span>
+          </div>
+          <p class="game-summary">
+            С патчами 1.18 и 1.0.43 добавлена честная привязка к системной калибровке PS5 (HGiG). Все внутриигровые ползунки оставить по умолчанию (<code>0</code>).
+          </p>
+        </div>
+        <div class="card-sources">
+          <a href="https://www.youtube.com/watch?v=Kw8JuZEl8M0" target="_blank" rel="noopener noreferrer" class="btn-card">GamingTech ↗</a>
+        </div>
+      </article>
+
+      <!-- Mortal Kombat 1 -->
+      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
+        <div>
+          <div class="game-header">
+            <h2 class="game-title">Mortal Kombat 1</h2>
+          </div>
+          <div class="badges-row">
+            <span class="badge badge-platform">PS5</span>
+            <span class="badge badge-system">System HDR (1:1)</span>
+          </div>
+          <p class="game-summary">
+            Автоматически использует системную калибровку PS5 без расхождений по пиковой яркости. Внутри игры оставить ползунок средних тонов на <code>50</code>.
+          </p>
+        </div>
+        <div class="card-sources">
+          <a href="https://www.youtube.com/watch?v=ZljIGLOtor4" target="_blank" rel="noopener noreferrer" class="btn-card">GamingTech ↗</a>
+        </div>
+      </article>
+
+      <!-- Hogwarts Legacy -->
+      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
+        <div>
+          <div class="game-header">
+            <h2 class="game-title">Hogwarts Legacy</h2>
+          </div>
+          <div class="badges-row">
+            <span class="badge badge-platform">PS5</span>
+            <span class="badge badge-system">System HDR (1:1)</span>
+          </div>
+          <p class="game-summary">
+            Напрямую считывает системную калибровку PS5 и выводит в меню точное значение нит, совпадающее с установленным в консоли.
+          </p>
+        </div>
+        <div class="card-sources">
+          <a href="https://www.youtube.com/watch?v=-p6TNxAV4P0" target="_blank" rel="noopener noreferrer" class="btn-card">HDR Analysis ↗</a>
+        </div>
+      </article>
+
+      <!-- Alan Wake 2 -->
+      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
+        <div>
+          <div class="game-header">
+            <h2 class="game-title">Alan Wake 2</h2>
+          </div>
+          <div class="badges-row">
+            <span class="badge badge-platform">PS5</span>
+            <span class="badge badge-system">System HDR (1:1)</span>
+          </div>
+          <p class="game-summary">
+            Пиковая яркость жёстко привязана к системным настройкам PS5. Ползунок <code>Game Brightness</code> меняет только экспозицию — оставить на <code>50</code>.
+          </p>
+        </div>
+        <div class="card-sources">
+          <a href="https://www.hdrgamer.com/2024/02/alan-wake-2-hdr-settings.html" target="_blank" rel="noopener noreferrer" class="btn-card">HDRGamer ↗</a>
+          <a href="https://www.youtube.com/watch?v=LpkKiHgCArc" target="_blank" rel="noopener noreferrer" class="btn-card">GamingTech ↗</a>
+        </div>
       </article>
     </div>
   </main>
