@@ -108,6 +108,12 @@
       letter-spacing: 0.05em;
     }
 
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
     .nav-links a {
       color: var(--text-muted);
       font-size: 0.9rem;
@@ -118,6 +124,15 @@
     .nav-links a.active {
       color: #fff;
       text-decoration: none;
+    }
+
+    .data-source-pill {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      background: #0d121c;
+      border: 1px solid var(--border-color);
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
     }
 
     /* Main Container */
@@ -278,20 +293,106 @@
       color: #4ade80;
     }
 
+    .badge-warn {
+      background: rgba(245, 158, 11, 0.14);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: #fbbf24;
+    }
+
     .game-summary {
       color: var(--text-muted);
       font-size: 0.9rem;
       line-height: 1.5;
-      margin-bottom: 1.2rem;
+      margin-bottom: 0.9rem;
     }
 
-    .game-summary code {
+    .game-summary code,
+    .mini-val {
       font-family: var(--font-mono);
       background: #0b0f17;
       color: var(--accent-blue);
-      padding: 0.1rem 0.35rem;
+      padding: 0.12rem 0.4rem;
       border-radius: 4px;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    /* Inline mini-settings inside cards */
+    .mini-settings {
+      background: rgba(10, 13, 20, 0.55);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.55rem 0.75rem;
+      margin-bottom: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .mini-setting-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      border-bottom: 1px dashed rgba(34, 43, 61, 0.7);
+      padding-bottom: 0.4rem;
+    }
+
+    .mini-setting-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .mini-setting-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      font-size: 0.83rem;
+    }
+
+    .mini-name {
+      color: var(--text-main);
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .why-mini-btn {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: var(--accent-blue);
+      font-size: 0.68rem;
+      font-weight: 800;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .why-mini-btn:hover,
+    .why-mini-btn[aria-expanded="true"] {
+      background: var(--accent-blue);
+      color: #050811;
+    }
+
+    .mini-why-box {
+      display: none;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      background: #0d121c;
+      border-left: 2px solid var(--accent-blue);
+      padding: 0.35rem 0.55rem;
+      border-radius: 0 4px 4px 0;
+      margin-top: 0.15rem;
+    }
+
+    .mini-why-box.open {
+      display: block;
     }
 
     .card-sources {
@@ -320,6 +421,12 @@
       color: #050811;
       text-decoration: none;
       border-color: var(--accent-blue);
+    }
+
+    .btn-card-primary {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.45);
+      color: var(--accent-blue);
     }
 
     /* Footer & Back to top */
@@ -380,6 +487,134 @@
 </head>
 <body>
 
+  <!-- =========================================================================
+       НАСТРОЙКА ИСТОЧНИКА ДАННЫХ (GOOGLE ТАБЛИЦА ПОДКЛЮЧЕНА!)
+       =========================================================================
+       Твоя ссылка на опубликованную CSV-таблицу уже вставлена ниже.
+       Если захочешь отключить таблицу и брать игры из текстового блока ниже —
+       просто сотри ссылку внутри кавычек: const GOOGLE_SHEET_CSV_URL = "";
+       ========================================================================= -->
+  <script>
+    const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRdEJvE6K7qjVfqC_SQjywBKxAbPwb6vml4LI4Gn8RRck_yuEC-_26RalSPrjNjYxs4kr2meTNFONA9/pub?output=csv";
+  </script>
+
+  <!-- =========================================================================
+       РЕЗЕРВНЫЙ ТЕКСТОВЫЙ ДОКУМЕНТ ИГР (РАБОТАЕТ, ЕСЛИ ТАБЛИЦА ОТКЛЮЧЕНА)
+       ========================================================================= -->
+  <script id="games-doc" type="text/plain">
+Игра: Cyberpunk 2077
+Платформа: PS5
+Статус: SDR Рекомендован
+Описание: Нативный HDR поднимает точку чёрного и создаёт серую дымку в тёмных сценах. Лучше играть в SDR с гаммой 1.10.
+Настройка: Режим HDR = Выкл (SDR) ? В HDR10 сломана нижняя граница яркости: тени выглядят молочно-серыми на OLED.
+Настройка: Гамма (Gamma) = 1.10 ? Возвращает глубокий чёрный цвет в ночном Найт-Сити без потери деталей в тенях.
+Настройка: Размытие и Зернистость = Выкл ? Убирает мыло в движении и искусственный шум поверх картинки.
+Страница: games/cyberpunk-2077/
+Источник: Замеры HDTVTest | https://www.youtube.com/watch?v=ms-qPkvpXrQ
+
+===
+
+Игра: Marvel's Spider-Man 2
+Платформа: PS5
+Статус: System HDR (1:1)
+Описание: Эталонная привязка к системной калибровке PS5 (HGiG) с чистым нулевым чёрным.
+Настройка: Яркость (Brightness) = 50 (по умолч.) ? Игра берёт пик нит напрямую из системы PS5, трогать ползунок не нужно.
+Настройка: Контраст (Contrast) = 50 (по умолч.) ? Повышение убьёт полутона в светлых облаках и неоновых вывесках.
+Настройка: Зернистость и Хроматическая аберрация = 0 / Выкл ? Максимальная чёткость костюма и зданий на 4K-экране.
+Источник: HDRGamer | https://www.hdrgamer.com/2023/10/marvels-spider-man-2-hdr-settings.html
+Источник: GamingTech | https://www.youtube.com/watch?v=6RADQQoK1A8
+
+===
+
+Игра: Spider-Man: Miles Morales / Remastered
+Платформа: PS5
+Статус: System HDR (1:1)
+Описание: Точно считывает пиковую яркость и уровень чёрного из системного меню PS5.
+Настройка: Яркость HDR = 50 ? Соответствует референсной кривой EOTF без засветов.
+Настройка: Контраст HDR = 0 (по умолч.) ? Оставляет заводской динамический диапазон Insomniac.
+Источник: HDRGamer | https://www.hdrgamer.com/2022/02/marvels-spider-man-miles-morales-hdr.html
+Источник: HDTVTest | https://www.youtube.com/watch?v=4Z_oJeHB-9E
+
+===
+
+Игра: God of War Ragnarök
+Платформа: PS5
+Статус: System HDR (1:1)
+Описание: Честно берёт пик и точку чёрного от системы PS5 без искажений.
+Настройка: Яркость HDR (Brightness) = 50 ? Регулирует только средние тона (Midtones), пик яркости уже взят из консоли.
+Настройка: Размытие и Зернистость = 0 ? Делает текстуры брони и снега максимально резкими.
+Источник: HDRGamer | https://www.hdrgamer.com/2022/11/god-of-war-ragnarok-hdr-settings.html
+Источник: GamingTech | https://www.youtube.com/watch?v=zZSlhTzvuTs
+
+===
+
+Игра: Ghost of Tsushima Director's Cut
+Платформа: PS5
+Статус: System HDR (1:1)
+Описание: Референсный HDR на PS5 с точной системной калибровкой и глубоким контрастом.
+Настройка: Яркость (Brightness) = 50–70 ? Меняет только общую экспозицию кадра, не ломая пиковые блики солнца и клинков.
+Настройка: Контрастность = Сильная (Dramatic) ? Фирменный кинематографичный пресет Sucker Punch с глубокими тенями.
+Источник: HDRGamer | https://www.hdrgamer.com/2022/02/ghost-of-tsushima-ps5-hdr-settings.html
+Источник: GamingTech | https://www.youtube.com/watch?v=10AkEy0HC-I
+
+===
+
+Игра: Call of Duty: Black Ops 6 (MW II / III)
+Платформа: PS5
+Статус: System HDR (1:1)
+Описание: Напрямую подтягивает все 3 шага системной калибровки PS5, ручная настройка нит внутри игры не нужна.
+Настройка: Яркость HDR = 0.50 (по умолч.) ? Пик совпадает 1:1 с системным меню PS5.
+Настройка: CAS (Резкость FidelityFX) = 0.50–0.80 ? Восстанавливает чёткость дальних целей после апскейлинга.
+Источник: HDRGamer | https://www.hdrgamer.com/2024/11/call-of-duty-black-ops-6-hdr-settings.html
+Источник: GamingTech | https://www.youtube.com/watch?v=65luEPaMoEc
+
+===
+
+Игра: Ratchet & Clank: Rift Apart
+Платформа: PS5
+Статус: System HDR (1:1)
+Описание: Движок Insomniac с честной поддержкой системного HGiG, нулевым чёрным и широким цветовым охватом (WCG).
+Настройка: Яркость / Контраст = 50 / 0 (по умолч.) ? Идеальный баланс неоновых частиц и глубокого космоса из коробки.
+Источник: HDTVTest | https://www.youtube.com/watch?v=eNMEu1SCHe8
+
+===
+
+Игра: Horizon Forbidden West
+Платформа: PS5
+Статус: System HDR (1:1)
+Описание: С патчами 1.18 и 1.0.43 добавлена честная привязка к системной калибровке PS5 (HGiG).
+Настройка: Яркость / Тени / Блики = 0 / 0 / 0 ? Все три ползунка по нулям дают точный заводской маппинг по калибровке консоли.
+Источник: GamingTech | https://www.youtube.com/watch?v=Kw8JuZEl8M0
+
+===
+
+Игра: Mortal Kombat 1
+Платформа: PS5
+Статус: System HDR (1:1)
+Описание: Автоматически использует системную калибровку PS5 без расхождений по пиковой яркости.
+Настройка: Яркость средних тонов = 50 ? Сохраняет сочность спецэффектов без пересвета арен.
+Источник: GamingTech | https://www.youtube.com/watch?v=ZljIGLOtor4
+
+===
+
+Игра: Hogwarts Legacy
+Платформа: PS5
+Статус: System HDR (1:1)
+Описание: Напрямую считывает системную калибровку PS5 и выводит в меню точное значение нит, установленное в консоли.
+Настройка: Калибровка HDR = По системе PS5 ? Ползунки автоматически встают на значения твоей консоли.
+Источник: HDR Analysis | https://www.youtube.com/watch?v=-p6TNxAV4P0
+
+===
+
+Игра: Alan Wake 2
+Платформа: PS5
+Статус: System HDR (1:1)
+Описание: Пиковая яркость жёстко привязана к системным настройкам PS5 и держит эталонный чёрный в ночном лесу.
+Настройка: Яркость игры (Brightness) = 50 ? Отвечает только за экспозицию средних тонов и бумажный белый (200 нит).
+Источник: HDRGamer | https://www.hdrgamer.com/2024/02/alan-wake-2-hdr-settings.html
+Источник: GamingTech | https://www.youtube.com/watch?v=LpkKiHgCArc
+  </script>
+
   <header class="header">
     <div class="header-container">
       <div class="logo">
@@ -389,6 +624,7 @@
         </a>
       </div>
       <nav class="nav-links">
+        <span id="dataSourceBadge" class="data-source-pill">Загрузка базы...</span>
         <a href="./" class="active">Каталог игр</a>
       </nav>
     </div>
@@ -413,220 +649,7 @@
       </div>
     </div>
 
-    <div class="games-grid">
-      <!-- Cyberpunk 2077 Card -->
-      <article class="game-card" data-platform="ps5" data-status="sdr-rec">
-        <div>
-          <div class="game-header">
-            <h2 class="game-title">Cyberpunk 2077</h2>
-          </div>
-          <div class="badges-row">
-            <span class="badge badge-platform">PS5</span>
-            <span class="badge badge-broken">SDR Рекомендован</span>
-          </div>
-          <p class="game-summary">
-            Нативный HDR поднимает точку чёрного и создаёт серую дымку в тёмных сценах. Эксперты HDTVTest рекомендуют отключить HDR и выставить гамму 1.1 для глубокого контраста.
-          </p>
-        </div>
-        <a href="games/cyberpunk-2077/" class="btn-card">Смотреть настройки →</a>
-      </article>
-
-      <!-- Marvel's Spider-Man 2 -->
-      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
-        <div>
-          <div class="game-header">
-            <h2 class="game-title">Marvel's Spider-Man 2</h2>
-          </div>
-          <div class="badges-row">
-            <span class="badge badge-platform">PS5</span>
-            <span class="badge badge-system">System HDR (1:1)</span>
-          </div>
-          <p class="game-summary">
-            Эталонная привязка к системной калибровке PS5 (HGiG) с чистым нулевым чёрным. Внутри игры ползунки Brightness и Contrast оставить по умолчанию (<code>50</code>).
-          </p>
-        </div>
-        <div class="card-sources">
-          <a href="https://www.hdrgamer.com/2023/10/marvels-spider-man-2-hdr-settings.html" target="_blank" rel="noopener noreferrer" class="btn-card">HDRGamer ↗</a>
-          <a href="https://www.youtube.com/watch?v=6RADQQoK1A8" target="_blank" rel="noopener noreferrer" class="btn-card">GamingTech ↗</a>
-        </div>
-      </article>
-
-      <!-- Marvel's Spider-Man: Miles Morales / Remastered -->
-      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
-        <div>
-          <div class="game-header">
-            <h2 class="game-title">Spider-Man: Miles Morales / Remastered</h2>
-          </div>
-          <div class="badges-row">
-            <span class="badge badge-platform">PS5</span>
-            <span class="badge badge-system">System HDR (1:1)</span>
-          </div>
-          <p class="game-summary">
-            Точно считывает пиковую яркость и уровень чёрного из системного меню PS5. В игре оставить Brightness <code>50</code> и Contrast <code>0</code> (дефолт).
-          </p>
-        </div>
-        <div class="card-sources">
-          <a href="https://www.hdrgamer.com/2022/02/marvels-spider-man-miles-morales-hdr.html" target="_blank" rel="noopener noreferrer" class="btn-card">HDRGamer ↗</a>
-          <a href="https://www.youtube.com/watch?v=4Z_oJeHB-9E" target="_blank" rel="noopener noreferrer" class="btn-card">HDTVTest ↗</a>
-        </div>
-      </article>
-
-      <!-- God of War Ragnarök -->
-      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
-        <div>
-          <div class="game-header">
-            <h2 class="game-title">God of War Ragnarök</h2>
-          </div>
-          <div class="badges-row">
-            <span class="badge badge-platform">PS5</span>
-            <span class="badge badge-system">System HDR (1:1)</span>
-          </div>
-          <p class="game-summary">
-            Честно берёт пик и точку чёрного от системы PS5 без искажений. Внутриигровой ползунок <code>HDR Brightness = 50</code> отвечает только за средние тона.
-          </p>
-        </div>
-        <div class="card-sources">
-          <a href="https://www.hdrgamer.com/2022/11/god-of-war-ragnarok-hdr-settings.html" target="_blank" rel="noopener noreferrer" class="btn-card">HDRGamer ↗</a>
-          <a href="https://www.youtube.com/watch?v=zZSlhTzvuTs" target="_blank" rel="noopener noreferrer" class="btn-card">GamingTech ↗</a>
-        </div>
-      </article>
-
-      <!-- Ghost of Tsushima Director's Cut -->
-      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
-        <div>
-          <div class="game-header">
-            <h2 class="game-title">Ghost of Tsushima Director's Cut</h2>
-          </div>
-          <div class="badges-row">
-            <span class="badge badge-platform">PS5</span>
-            <span class="badge badge-system">System HDR (1:1)</span>
-          </div>
-          <p class="game-summary">
-            Референсный HDR на PS5 с точной системной калибровкой. Внутриигровой параметр <code>Brightness</code> (<code>50–70</code>) регулирует только общую экспозицию.
-          </p>
-        </div>
-        <div class="card-sources">
-          <a href="https://www.hdrgamer.com/2022/02/ghost-of-tsushima-ps5-hdr-settings.html" target="_blank" rel="noopener noreferrer" class="btn-card">HDRGamer ↗</a>
-          <a href="https://www.youtube.com/watch?v=10AkEy0HC-I" target="_blank" rel="noopener noreferrer" class="btn-card">GamingTech ↗</a>
-        </div>
-      </article>
-
-      <!-- Call of Duty: Black Ops 6 (и MW II / III) -->
-      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
-        <div>
-          <div class="game-header">
-            <h2 class="game-title">Call of Duty: Black Ops 6 (MW II / III)</h2>
-          </div>
-          <div class="badges-row">
-            <span class="badge badge-platform">PS5</span>
-            <span class="badge badge-system">System HDR (1:1)</span>
-          </div>
-          <p class="game-summary">
-            Напрямую подтягивает все 3 шага системной калибровки PS5. Пик совпадает 1:1 с консолью, ручная настройка нит внутри игры не требуется.
-          </p>
-        </div>
-        <div class="card-sources">
-          <a href="https://www.hdrgamer.com/2024/11/call-of-duty-black-ops-6-hdr-settings.html" target="_blank" rel="noopener noreferrer" class="btn-card">HDRGamer ↗</a>
-          <a href="https://www.youtube.com/watch?v=65luEPaMoEc" target="_blank" rel="noopener noreferrer" class="btn-card">GamingTech ↗</a>
-        </div>
-      </article>
-
-      <!-- Ratchet & Clank: Rift Apart -->
-      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
-        <div>
-          <div class="game-header">
-            <h2 class="game-title">Ratchet & Clank: Rift Apart</h2>
-          </div>
-          <div class="badges-row">
-            <span class="badge badge-platform">PS5</span>
-            <span class="badge badge-system">System HDR (1:1)</span>
-          </div>
-          <p class="game-summary">
-            Движок Insomniac с честной поддержкой системного HGiG, нулевым чёрным и широким цветовым охватом (WCG). Дополнительная подгонка пика не требуется.
-          </p>
-        </div>
-        <div class="card-sources">
-          <a href="https://www.youtube.com/watch?v=eNMEu1SCHe8" target="_blank" rel="noopener noreferrer" class="btn-card">HDTVTest ↗</a>
-        </div>
-      </article>
-
-      <!-- Horizon Forbidden West -->
-      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
-        <div>
-          <div class="game-header">
-            <h2 class="game-title">Horizon Forbidden West</h2>
-          </div>
-          <div class="badges-row">
-            <span class="badge badge-platform">PS5</span>
-            <span class="badge badge-system">System HDR (1:1)</span>
-          </div>
-          <p class="game-summary">
-            С патчами 1.18 и 1.0.43 добавлена честная привязка к системной калибровке PS5 (HGiG). Все внутриигровые ползунки оставить по умолчанию (<code>0</code>).
-          </p>
-        </div>
-        <div class="card-sources">
-          <a href="https://www.youtube.com/watch?v=Kw8JuZEl8M0" target="_blank" rel="noopener noreferrer" class="btn-card">GamingTech ↗</a>
-        </div>
-      </article>
-
-      <!-- Mortal Kombat 1 -->
-      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
-        <div>
-          <div class="game-header">
-            <h2 class="game-title">Mortal Kombat 1</h2>
-          </div>
-          <div class="badges-row">
-            <span class="badge badge-platform">PS5</span>
-            <span class="badge badge-system">System HDR (1:1)</span>
-          </div>
-          <p class="game-summary">
-            Автоматически использует системную калибровку PS5 без расхождений по пиковой яркости. Внутри игры оставить ползунок средних тонов на <code>50</code>.
-          </p>
-        </div>
-        <div class="card-sources">
-          <a href="https://www.youtube.com/watch?v=ZljIGLOtor4" target="_blank" rel="noopener noreferrer" class="btn-card">GamingTech ↗</a>
-        </div>
-      </article>
-
-      <!-- Hogwarts Legacy -->
-      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
-        <div>
-          <div class="game-header">
-            <h2 class="game-title">Hogwarts Legacy</h2>
-          </div>
-          <div class="badges-row">
-            <span class="badge badge-platform">PS5</span>
-            <span class="badge badge-system">System HDR (1:1)</span>
-          </div>
-          <p class="game-summary">
-            Напрямую считывает системную калибровку PS5 и выводит в меню точное значение нит, совпадающее с установленным в консоли.
-          </p>
-        </div>
-        <div class="card-sources">
-          <a href="https://www.youtube.com/watch?v=-p6TNxAV4P0" target="_blank" rel="noopener noreferrer" class="btn-card">HDR Analysis ↗</a>
-        </div>
-      </article>
-
-      <!-- Alan Wake 2 -->
-      <article class="game-card" data-platform="ps5" data-status="system-hdr native-ok">
-        <div>
-          <div class="game-header">
-            <h2 class="game-title">Alan Wake 2</h2>
-          </div>
-          <div class="badges-row">
-            <span class="badge badge-platform">PS5</span>
-            <span class="badge badge-system">System HDR (1:1)</span>
-          </div>
-          <p class="game-summary">
-            Пиковая яркость жёстко привязана к системным настройкам PS5. Ползунок <code>Game Brightness</code> меняет только экспозицию — оставить на <code>50</code>.
-          </p>
-        </div>
-        <div class="card-sources">
-          <a href="https://www.hdrgamer.com/2024/02/alan-wake-2-hdr-settings.html" target="_blank" rel="noopener noreferrer" class="btn-card">HDRGamer ↗</a>
-          <a href="https://www.youtube.com/watch?v=LpkKiHgCArc" target="_blank" rel="noopener noreferrer" class="btn-card">GamingTech ↗</a>
-        </div>
-      </article>
-    </div>
+    <div id="gamesGrid" class="games-grid"></div>
   </main>
 
   <footer class="footer">
@@ -636,8 +659,230 @@
   <button id="backToTop" class="back-to-top" title="Наверх" aria-label="Наверх">↑</button>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Back to top button
+    function escapeHTML(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function parsePlainTextDoc(rawText) {
+      const blocks = rawText.split(/^\s*===+\s*$/m).map(b => b.trim()).filter(Boolean);
+      return blocks.map(block => {
+        const game = {
+          title: '',
+          platform: 'PS5',
+          status: 'System HDR (1:1)',
+          summary: '',
+          page: '',
+          settings: [],
+          sources: []
+        };
+        const lines = block.split('\n').map(l => l.trim()).filter(Boolean);
+        lines.forEach(line => {
+          const colonIdx = line.indexOf(':');
+          if (colonIdx === -1) return;
+          const key = line.slice(0, colonIdx).trim().toLowerCase();
+          const val = line.slice(colonIdx + 1).trim();
+
+          if (key === 'игра' || key === 'название') {
+            game.title = val;
+          } else if (key === 'платформа') {
+            game.platform = val;
+          } else if (key === 'статус') {
+            game.status = val;
+          } else if (key === 'описание' || key === 'заметка') {
+            game.summary = val;
+          } else if (key === 'страница') {
+            game.page = val;
+          } else if (key === 'настройка') {
+            const [leftPart, whyPart] = val.split('?').map(s => s ? s.trim() : '');
+            const [paramName, paramVal] = (leftPart || '').split('=').map(s => s ? s.trim() : '');
+            if (paramName) {
+              game.settings.push({
+                name: paramName,
+                value: paramVal || '',
+                why: whyPart || ''
+              });
+            }
+          } else if (key === 'источник' || key === 'ссылка') {
+            const [label, url] = val.split('|').map(s => s ? s.trim() : '');
+            if (label && url) {
+              game.sources.push({ label, url });
+            }
+          }
+        });
+        return game;
+      }).filter(g => g.title);
+    }
+
+    function parseCSV(csvText) {
+      const rows = [];
+      let row = [];
+      let cur = '';
+      let inQuotes = false;
+      for (let i = 0; i < csvText.length; i++) {
+        const ch = csvText[i];
+        const next = csvText[i + 1];
+        if (inQuotes) {
+          if (ch === '"' && next === '"') {
+            cur += '"';
+            i++;
+          } else if (ch === '"') {
+            inQuotes = false;
+          } else {
+            cur += ch;
+          }
+        } else {
+          if (ch === '"') {
+            inQuotes = true;
+          } else if (ch === ',') {
+            row.push(cur.trim());
+            cur = '';
+          } else if (ch === '\n' || (ch === '\r' && next === '\n')) {
+            if (ch === '\r') i++;
+            row.push(cur.trim());
+            if (row.some(cell => cell !== '')) rows.push(row);
+            row = [];
+            cur = '';
+          } else {
+            cur += ch;
+          }
+        }
+      }
+      if (cur || row.length > 0) {
+        row.push(cur.trim());
+        if (row.some(cell => cell !== '')) rows.push(row);
+      }
+
+      return rows.slice(1).map(cols => {
+        const [title, platform, status, summary, settingsRaw, sourcesRaw, page] = cols;
+        const settings = (settingsRaw || '').split(';').map(s => s.trim()).filter(Boolean).map(item => {
+          const [leftPart, whyPart] = item.split('?').map(x => x ? x.trim() : '');
+          const [name, value] = (leftPart || '').split('=').map(x => x ? x.trim() : '');
+          return { name: name || '', value: value || '', why: whyPart || '' };
+        }).filter(s => s.name);
+
+        const sources = (sourcesRaw || '').split(';').map(s => s.trim()).filter(Boolean).map(item => {
+          const [label, url] = item.split('|').map(x => x ? x.trim() : '');
+          return { label: label || '', url: url || '' };
+        }).filter(s => s.label && s.url);
+
+        return {
+          title: title || '',
+          platform: platform || 'PS5',
+          status: status || 'System HDR (1:1)',
+          summary: summary || '',
+          settings,
+          sources,
+          page: page || ''
+        };
+      }).filter(g => g.title);
+    }
+
+    function getStatusInfo(statusText) {
+      const lower = (statusText || '').toLowerCase();
+      if (lower.includes('sdr') || lower.includes('сломан')) {
+        return { badgeClass: 'badge-broken', filterTags: 'sdr-rec' };
+      }
+      if (lower.includes('1:1') || lower.includes('system')) {
+        return { badgeClass: 'badge-system', filterTags: 'system-hdr native-ok' };
+      }
+      return { badgeClass: 'badge-warn', filterTags: 'native-ok' };
+    }
+
+    function renderGames(games) {
+      const grid = document.getElementById('gamesGrid');
+      if (!grid) return;
+
+      grid.innerHTML = games.map((game) => {
+        const statusInfo = getStatusInfo(game.status);
+        const platformTag = (game.platform || 'ps5').toLowerCase();
+
+        const settingsHTML = game.settings && game.settings.length > 0
+          ? `<div class="mini-settings">
+              ${game.settings.map((s) => `
+                <div class="mini-setting-item">
+                  <div class="mini-setting-top">
+                    <span class="mini-name">
+                      ${escapeHTML(s.name)}
+                      ${s.why ? `<button type="button" class="why-mini-btn" aria-expanded="false" title="Почему так?">?</button>` : ''}
+                    </span>
+                    <span class="mini-val">${escapeHTML(s.value)}</span>
+                  </div>
+                  ${s.why ? `<div class="mini-why-box">${escapeHTML(s.why)}</div>` : ''}
+                </div>
+              `).join('')}
+            </div>`
+          : '';
+
+        const actionsHTML = [];
+        if (game.page) {
+          actionsHTML.push(`<a href="${escapeHTML(game.page)}" class="btn-card btn-card-primary">Подробный разбор →</a>`);
+        }
+        (game.sources || []).forEach(src => {
+          actionsHTML.push(`<a href="${escapeHTML(src.url)}" target="_blank" rel="noopener noreferrer" class="btn-card">${escapeHTML(src.label)} ↗</a>`);
+        });
+
+        return `
+          <article class="game-card" data-platform="${escapeHTML(platformTag)}" data-status="${statusInfo.filterTags}">
+            <div>
+              <div class="game-header">
+                <h2 class="game-title">${escapeHTML(game.title)}</h2>
+              </div>
+              <div class="badges-row">
+                <span class="badge badge-platform">${escapeHTML(game.platform)}</span>
+                <span class="badge ${statusInfo.badgeClass}">${escapeHTML(game.status)}</span>
+              </div>
+              <p class="game-summary">${escapeHTML(game.summary)}</p>
+              ${settingsHTML}
+            </div>
+            <div class="card-sources">
+              ${actionsHTML.join('')}
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      grid.querySelectorAll('.why-mini-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const item = btn.closest('.mini-setting-item');
+          const box = item ? item.querySelector('.mini-why-box') : null;
+          if (!box) return;
+          const isOpen = box.classList.toggle('open');
+          btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const badgeEl = document.getElementById('dataSourceBadge');
+      const docEl = document.getElementById('games-doc');
+      let games = [];
+
+      if (typeof GOOGLE_SHEET_CSV_URL === 'string' && GOOGLE_SHEET_CSV_URL.trim() !== '') {
+        try {
+          const res = await fetch(GOOGLE_SHEET_CSV_URL.trim(), { cache: 'no-store' });
+          if (res.ok) {
+            const csvText = await res.text();
+            games = parseCSV(csvText);
+            if (badgeEl && games.length > 0) {
+              badgeEl.textContent = 'Источник: Google Таблица (Live)';
+            }
+          }
+        } catch (err) {
+          console.warn('Не удалось загрузить Google Таблицу, используем локальный блок:', err);
+        }
+      }
+
+      if (games.length === 0 && docEl) {
+        games = parsePlainTextDoc(docEl.textContent);
+        if (badgeEl) badgeEl.textContent = 'Источник: Локальный блок';
+      }
+
+      renderGames(games);
+
       const backToTopBtn = document.getElementById('backToTop');
       if (backToTopBtn) {
         window.addEventListener('scroll', () => {
@@ -653,44 +898,41 @@
         });
       }
 
-      // Catalog search & filter
       const searchInput = document.getElementById('gameSearch');
       const filterBtns = document.querySelectorAll('.filter-btn');
-      const gameCards = document.querySelectorAll('.game-card');
 
-      if (searchInput && gameCards.length > 0) {
-        let activeFilter = 'all';
+      const filterGames = () => {
+        const query = (searchInput?.value || '').toLowerCase().trim();
+        const activeBtn = document.querySelector('.filter-btn.active');
+        const filterVal = (activeBtn?.dataset.filter || 'all').toLowerCase();
+        const gameCards = document.querySelectorAll('.game-card');
 
-        const filterGames = () => {
-          const query = searchInput.value.toLowerCase().trim();
+        gameCards.forEach((card) => {
+          const title = card.querySelector('.game-title')?.textContent.toLowerCase() || '';
+          const platform = (card.dataset.platform || '').toLowerCase().split(/\s+/);
+          const status = (card.dataset.status || '').toLowerCase().split(/\s+/);
 
-          gameCards.forEach((card) => {
-            const title = card.querySelector('.game-title')?.textContent.toLowerCase() || '';
-            const platform = (card.dataset.platform || '').toLowerCase().split(/\s+/);
-            const status = (card.dataset.status || '').toLowerCase().split(/\s+/);
-            const filterVal = activeFilter.toLowerCase();
+          const matchesQuery = title.includes(query);
+          const matchesFilter =
+            filterVal === 'all' ||
+            platform.includes(filterVal) ||
+            status.includes(filterVal);
 
-            const matchesQuery = title.includes(query);
-            const matchesFilter =
-              filterVal === 'all' ||
-              platform.includes(filterVal) ||
-              status.includes(filterVal);
-
-            card.style.display = matchesQuery && matchesFilter ? 'flex' : 'none';
-          });
-        };
-
-        searchInput.addEventListener('input', filterGames);
-
-        filterBtns.forEach((btn) => {
-          btn.addEventListener('click', () => {
-            filterBtns.forEach((b) => b.classList.remove('active'));
-            btn.classList.add('active');
-            activeFilter = btn.dataset.filter;
-            filterGames();
-          });
+          card.style.display = matchesQuery && matchesFilter ? 'flex' : 'none';
         });
+      };
+
+      if (searchInput) {
+        searchInput.addEventListener('input', filterGames);
       }
+
+      filterBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
+          filterGames();
+        });
+      });
     });
   </script>
 </body>
