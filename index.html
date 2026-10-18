@@ -3,33 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HDRGG — База знаний и оптимальных настроек HDR в играх</title>
-  <meta name="description" content="HDRGG (HDR Gaming Guide): честные настройки графики и HDR в играх на PS5 и консолях. Без мыла, с пояснениями в один клик и замерами HDTVTest.">
+  <title>HDRGG — HDR Gaming Guide</title>
+  <meta name="description" content="HDRGG (HDR Gaming Guide): проверенные настройки HDR и калибровки для игр.">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="HDRGG — Честный гид по настройкам HDR в играх">
-  <meta property="og:description" content="Оптимальные настройки дисплея и графики на PS5: замеры экспертов, понятные пояснения и готовые пресеты.">
+  <meta property="og:title" content="HDRGG — HDR Gaming Guide">
+  <meta property="og:description" content="HDRGG: калибровка PS5, HGiG и настройки HDR в играх.">
   <meta property="og:type" content="website">
 
   <style>
-    /* Base & Reset */
+    /* Clean Authentic HDR Theme (OLED Pitch Black & HDR Gold — Zero Purple) */
     :root {
-      --bg-primary: #0a0d14;
-      --bg-secondary: #101520;
-      --bg-card: #151c2a;
-      --bg-card-hover: #1b2334;
-      --border-color: #222b3d;
-      --border-active: #38bdf8;
-      --text-main: #f1f5f9;
+      --bg-black: #060709;
+      --bg-surface: #0c0e14;
+      --bg-card: #11141c;
+      --bg-card-hover: #161b25;
+      --border-subtle: #1c2230;
+
+      /* HDR Gold & Accents */
+      --hdr-gold: #f59e0b;
+      --hdr-gold-bright: #fbbf24;
+      --hdr-cyan: #38bdf8;
+      --hdr-red: #ef4444;
+
+      --text-white: #ffffff;
+      --text-main: #e2e8f0;
       --text-muted: #94a3b8;
       --text-dim: #64748b;
-      --accent-blue: #38bdf8;
-      --accent-cyan: #06b6d4;
-      --accent-green: #22c55e;
-      --accent-amber: #f59e0b;
-      --accent-red: #ef4444;
+
       --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     }
 
     * {
@@ -39,7 +41,7 @@
     }
 
     body {
-      background-color: var(--bg-primary);
+      background-color: var(--bg-black);
       color: var(--text-main);
       font-family: var(--font-sans);
       line-height: 1.5;
@@ -50,887 +52,520 @@
     }
 
     a {
-      color: var(--accent-blue);
+      color: var(--hdr-gold);
       text-decoration: none;
       transition: color 0.15s ease;
     }
 
-    a:hover {
-      text-decoration: underline;
-    }
-
-    /* Header */
-    .header {
-      background: var(--bg-secondary);
-      border-bottom: 1px solid var(--border-color);
+    /* Top Ambient Gold Edge */
+    .hdr-edge {
+      height: 3px;
+      width: 100%;
+      background: linear-gradient(90deg, #d97706, #fbbf24, #d97706);
       position: sticky;
       top: 0;
-      z-index: 50;
-      backdrop-filter: blur(8px);
+      z-index: 60;
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+    }
+
+    /* Single Clean Header — Zero Duplication */
+    .header {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 1.75rem 1.25rem 1.5rem;
     }
 
     .header-container {
-      max-width: 960px;
+      max-width: 980px;
       margin: 0 auto;
-      padding: 0.85rem 1.25rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
     }
 
-    .logo-link {
+    .brand {
       display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      text-decoration: none !important;
+      flex-direction: column;
+      gap: 0.2rem;
     }
 
-    .logo-text {
-      font-size: 1.3rem;
+    .brand-title {
+      font-size: 2.85rem;
       font-weight: 900;
-      color: #fff;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.05em;
+      color: var(--text-white);
+      line-height: 1;
     }
 
-    .logo-accent {
-      color: var(--accent-blue);
-    }
-
-    .logo-badge {
-      background: rgba(56, 189, 248, 0.15);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      color: var(--accent-blue);
-      font-size: 0.7rem;
+    .brand-subtitle {
+      font-size: 1.05rem;
       font-weight: 800;
-      padding: 0.15rem 0.45rem;
-      border-radius: 4px;
+      color: var(--hdr-gold);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .nav-links a {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: #fff;
-      text-decoration: none;
-    }
-
-    .data-source-pill {
-      font-size: 0.72rem;
-      color: var(--text-dim);
-      background: #0d121c;
-      border: 1px solid var(--border-color);
-      padding: 0.2rem 0.55rem;
-      border-radius: 999px;
+      letter-spacing: 0.15em;
     }
 
     /* Main Container */
     .main {
-      max-width: 960px;
+      max-width: 980px;
       margin: 0 auto;
       padding: 1.75rem 1.25rem 4rem;
       flex: 1;
       width: 100%;
     }
 
-    /* Hero */
-    .hero {
-      margin-bottom: 2rem;
-    }
-
-    .hero-title {
-      font-size: 2.25rem;
-      font-weight: 900;
-      letter-spacing: -0.03em;
-      color: #fff;
-      margin-bottom: 0.5rem;
-    }
-
-    .hero-desc {
-      color: var(--text-muted);
-      font-size: 1rem;
-      max-width: 680px;
-      line-height: 1.6;
-    }
-
-    .hero-desc strong {
-      color: var(--text-main);
-    }
-
-    /* Controls */
-    .controls-bar {
+    /* Controls: Search & Filter Pills */
+    .controls-panel {
       margin-bottom: 1.75rem;
       display: flex;
       flex-direction: column;
-      gap: 0.85rem;
+      gap: 0.95rem;
     }
 
     .search-input {
       width: 100%;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 0.8rem 1rem;
-      border-radius: 8px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-white);
+      padding: 0.85rem 1.15rem;
+      border-radius: 10px;
       font-size: 0.95rem;
       outline: none;
-      transition: border-color 0.15s;
+      transition: all 0.2s ease;
     }
 
     .search-input:focus {
-      border-color: var(--border-active);
+      border-color: var(--hdr-gold);
+      box-shadow: 0 0 16px rgba(245, 158, 11, 0.2);
+      background: #0f121a;
     }
 
-    .filter-tags {
+    .filter-pills {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.55rem;
       overflow-x: auto;
-      padding-bottom: 0.25rem;
+      padding-bottom: 0.35rem;
       scrollbar-width: thin;
     }
 
-    .filter-btn {
-      background: var(--bg-secondary);
+    .filter-pill {
+      background: var(--bg-surface);
       color: var(--text-muted);
-      border: 1px solid var(--border-color);
-      padding: 0.38rem 0.85rem;
-      border-radius: 20px;
+      border: 1px solid var(--border-subtle);
+      padding: 0.45rem 1.05rem;
+      border-radius: 999px;
       font-size: 0.82rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
-      transition: all 0.15s ease;
+      transition: all 0.16s ease;
+      letter-spacing: 0.02em;
     }
 
-    .filter-btn:hover,
-    .filter-btn.active {
-      background: var(--accent-blue);
-      color: #050811;
-      border-color: var(--accent-blue);
+    .filter-pill:hover {
+      border-color: var(--hdr-gold);
+      color: var(--text-white);
+      transform: translateY(-1px);
     }
 
-    /* Games Grid */
+    .filter-pill.active {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: #000000;
+      border-color: transparent;
+      box-shadow: 0 2px 14px rgba(245, 158, 11, 0.4);
+    }
+
+    /* Games Grid — Clean, Compact Cards Without Description */
     .games-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 1.25rem;
     }
 
     .game-card {
       background: var(--bg-card);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border-subtle);
       border-radius: 12px;
       padding: 1.35rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+      gap: 1.25rem;
+      transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #f59e0b, #d97706);
+      opacity: 0;
+      transition: opacity 0.2s ease;
     }
 
     .game-card:hover {
       transform: translateY(-2px);
-      border-color: var(--accent-blue);
+      border-color: rgba(245, 158, 11, 0.45);
       background: var(--bg-card-hover);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 14px rgba(245, 158, 11, 0.08);
+    }
+
+    .game-card:hover::before {
+      opacity: 1;
     }
 
     .game-header {
       display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 0.75rem;
-      margin-bottom: 0.75rem;
+      flex-direction: column;
+      gap: 0.65rem;
     }
 
     .game-title {
-      font-size: 1.18rem;
-      font-weight: 700;
-      color: #fff;
-      line-height: 1.3;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--text-white);
+      line-height: 1.25;
     }
 
     .badges-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.35rem;
-      margin-bottom: 0.85rem;
+      gap: 0.4rem;
     }
 
     .badge {
       font-size: 0.72rem;
-      font-weight: 700;
-      padding: 0.2rem 0.55rem;
+      font-weight: 800;
+      padding: 0.22rem 0.6rem;
       border-radius: 5px;
       text-transform: uppercase;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.04em;
     }
 
-    .badge-platform {
+    .badge-ps5 {
+      background: rgba(148, 163, 184, 0.12);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      color: #cbd5e1;
+    }
+
+    .badge-calibration {
+      background: rgba(245, 158, 11, 0.14);
+      border: 1px solid rgba(245, 158, 11, 0.45);
+      color: var(--hdr-gold-bright);
+    }
+
+    .badge-hgig {
       background: rgba(56, 189, 248, 0.12);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      color: var(--accent-blue);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: var(--hdr-cyan);
     }
 
     .badge-broken {
-      background: rgba(239, 68, 68, 0.12);
-      border: 1px solid rgba(239, 68, 68, 0.3);
+      background: rgba(239, 68, 68, 0.14);
+      border: 1px solid rgba(239, 68, 68, 0.45);
       color: #f87171;
     }
 
-    .badge-system {
-      background: rgba(34, 197, 94, 0.14);
-      border: 1px solid rgba(34, 197, 94, 0.35);
-      color: #4ade80;
-    }
-
-    .badge-warn {
-      background: rgba(245, 158, 11, 0.14);
-      border: 1px solid rgba(245, 158, 11, 0.35);
-      color: #fbbf24;
-    }
-
-    .game-summary {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      line-height: 1.5;
-      margin-bottom: 0.9rem;
-    }
-
-    .game-summary code,
-    .mini-val {
-      font-family: var(--font-mono);
-      background: #0b0f17;
-      color: var(--accent-blue);
-      padding: 0.12rem 0.4rem;
-      border-radius: 4px;
-      font-size: 0.82rem;
-      font-weight: 600;
-    }
-
-    /* Inline mini-settings inside cards */
-    .mini-settings {
-      background: rgba(10, 13, 20, 0.55);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 0.55rem 0.75rem;
-      margin-bottom: 1.1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.45rem;
-    }
-
-    .mini-setting-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      border-bottom: 1px dashed rgba(34, 43, 61, 0.7);
-      padding-bottom: 0.4rem;
-    }
-
-    .mini-setting-item:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-
-    .mini-setting-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.5rem;
-      font-size: 0.83rem;
-    }
-
-    .mini-name {
-      color: var(--text-main);
-      font-weight: 500;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .why-mini-btn {
-      background: rgba(56, 189, 248, 0.12);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      color: var(--accent-blue);
-      font-size: 0.68rem;
-      font-weight: 800;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .why-mini-btn:hover,
-    .why-mini-btn[aria-expanded="true"] {
-      background: var(--accent-blue);
-      color: #050811;
-    }
-
-    .mini-why-box {
-      display: none;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      background: #0d121c;
-      border-left: 2px solid var(--accent-blue);
-      padding: 0.35rem 0.55rem;
-      border-radius: 0 4px 4px 0;
-      margin-top: 0.15rem;
-    }
-
-    .mini-why-box.open {
-      display: block;
-    }
-
-    .card-sources {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.45rem;
+    /* Single Clean Action Button */
+    .card-action {
       margin-top: auto;
     }
 
-    .btn-card {
-      display: inline-flex;
+    .btn-game-open {
+      display: flex;
       align-items: center;
       justify-content: center;
-      background: #1e2638;
-      color: #fff;
-      padding: 0.55rem 0.85rem;
+      gap: 0.4rem;
+      width: 100%;
+      background: #161b26;
+      color: var(--text-white);
+      border: 1px solid var(--border-subtle);
+      padding: 0.68rem 1rem;
       border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      border: 1px solid var(--border-color);
-      transition: all 0.15s ease;
+      font-size: 0.88rem;
+      font-weight: 700;
+      transition: all 0.16s ease;
+      text-align: center;
     }
 
-    .btn-card:hover {
-      background: var(--accent-blue);
-      color: #050811;
+    .btn-game-open:hover {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: #000000;
+      border-color: transparent;
       text-decoration: none;
-      border-color: var(--accent-blue);
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
     }
 
-    .btn-card-primary {
-      background: rgba(56, 189, 248, 0.15);
-      border-color: rgba(56, 189, 248, 0.45);
-      color: var(--accent-blue);
-    }
-
-    /* Footer & Back to top */
+    /* Footer */
     .footer {
-      border-top: 1px solid var(--border-color);
-      background: var(--bg-secondary);
-      padding: 1.5rem 1.25rem;
+      border-top: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      padding: 1.75rem 1.25rem;
       text-align: center;
       color: var(--text-dim);
       font-size: 0.85rem;
     }
 
-    .back-to-top {
-      position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.2s ease;
-      z-index: 40;
+    .footer strong {
+      color: var(--text-white);
     }
 
-    .back-to-top.visible {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .back-to-top:hover {
-      background: var(--accent-blue);
-      color: #050811;
-      border-color: var(--accent-blue);
-    }
-
-    @media (max-width: 600px) {
-      .hero-title {
-        font-size: 1.8rem;
+    @media (max-width: 640px) {
+      .brand-title {
+        font-size: 2.35rem;
       }
       .games-grid {
         grid-template-columns: 1fr;
       }
     }
-
-    @media print {
-      body { background: #fff; color: #000; }
-      .header, .footer, .back-to-top, .controls-bar { display: none !important; }
-    }
   </style>
 </head>
 <body>
 
-  <!-- =========================================================================
-       НАСТРОЙКА ИСТОЧНИКА ДАННЫХ (GOOGLE ТАБЛИЦА ПОДКЛЮЧЕНА!)
-       =========================================================================
-       Твоя ссылка на опубликованную CSV-таблицу уже вставлена ниже.
-       Если захочешь отключить таблицу и брать игры из текстового блока ниже —
-       просто сотри ссылку внутри кавычек: const GOOGLE_SHEET_CSV_URL = "";
-       ========================================================================= -->
-  <script>
-    const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRdEJvE6K7qjVfqC_SQjywBKxAbPwb6vml4LI4Gn8RRck_yuEC-_26RalSPrjNjYxs4kr2meTNFONA9/pub?output=csv";
-  </script>
+  <!-- Top Accent Edge -->
+  <div class="hdr-edge"></div>
 
-  <!-- =========================================================================
-       РЕЗЕРВНЫЙ ТЕКСТОВЫЙ ДОКУМЕНТ ИГР (РАБОТАЕТ, ЕСЛИ ТАБЛИЦА ОТКЛЮЧЕНА)
-       ========================================================================= -->
-  <script id="games-doc" type="text/plain">
-Игра: Cyberpunk 2077
-Платформа: PS5
-Статус: SDR Рекомендован
-Описание: Нативный HDR поднимает точку чёрного и создаёт серую дымку в тёмных сценах. Лучше играть в SDR с гаммой 1.10.
-Настройка: Режим HDR = Выкл (SDR) ? В HDR10 сломана нижняя граница яркости: тени выглядят молочно-серыми на OLED.
-Настройка: Гамма (Gamma) = 1.10 ? Возвращает глубокий чёрный цвет в ночном Найт-Сити без потери деталей в тенях.
-Настройка: Размытие и Зернистость = Выкл ? Убирает мыло в движении и искусственный шум поверх картинки.
-Страница: games/cyberpunk-2077/
-Источник: Замеры HDTVTest | https://www.youtube.com/watch?v=ms-qPkvpXrQ
-
-===
-
-Игра: Marvel's Spider-Man 2
-Платформа: PS5
-Статус: System HDR (1:1)
-Описание: Эталонная привязка к системной калибровке PS5 (HGiG) с чистым нулевым чёрным.
-Настройка: Яркость (Brightness) = 50 (по умолч.) ? Игра берёт пик нит напрямую из системы PS5, трогать ползунок не нужно.
-Настройка: Контраст (Contrast) = 50 (по умолч.) ? Повышение убьёт полутона в светлых облаках и неоновых вывесках.
-Настройка: Зернистость и Хроматическая аберрация = 0 / Выкл ? Максимальная чёткость костюма и зданий на 4K-экране.
-Источник: HDRGamer | https://www.hdrgamer.com/2023/10/marvels-spider-man-2-hdr-settings.html
-Источник: GamingTech | https://www.youtube.com/watch?v=6RADQQoK1A8
-
-===
-
-Игра: Spider-Man: Miles Morales / Remastered
-Платформа: PS5
-Статус: System HDR (1:1)
-Описание: Точно считывает пиковую яркость и уровень чёрного из системного меню PS5.
-Настройка: Яркость HDR = 50 ? Соответствует референсной кривой EOTF без засветов.
-Настройка: Контраст HDR = 0 (по умолч.) ? Оставляет заводской динамический диапазон Insomniac.
-Источник: HDRGamer | https://www.hdrgamer.com/2022/02/marvels-spider-man-miles-morales-hdr.html
-Источник: HDTVTest | https://www.youtube.com/watch?v=4Z_oJeHB-9E
-
-===
-
-Игра: God of War Ragnarök
-Платформа: PS5
-Статус: System HDR (1:1)
-Описание: Честно берёт пик и точку чёрного от системы PS5 без искажений.
-Настройка: Яркость HDR (Brightness) = 50 ? Регулирует только средние тона (Midtones), пик яркости уже взят из консоли.
-Настройка: Размытие и Зернистость = 0 ? Делает текстуры брони и снега максимально резкими.
-Источник: HDRGamer | https://www.hdrgamer.com/2022/11/god-of-war-ragnarok-hdr-settings.html
-Источник: GamingTech | https://www.youtube.com/watch?v=zZSlhTzvuTs
-
-===
-
-Игра: Ghost of Tsushima Director's Cut
-Платформа: PS5
-Статус: System HDR (1:1)
-Описание: Референсный HDR на PS5 с точной системной калибровкой и глубоким контрастом.
-Настройка: Яркость (Brightness) = 50–70 ? Меняет только общую экспозицию кадра, не ломая пиковые блики солнца и клинков.
-Настройка: Контрастность = Сильная (Dramatic) ? Фирменный кинематографичный пресет Sucker Punch с глубокими тенями.
-Источник: HDRGamer | https://www.hdrgamer.com/2022/02/ghost-of-tsushima-ps5-hdr-settings.html
-Источник: GamingTech | https://www.youtube.com/watch?v=10AkEy0HC-I
-
-===
-
-Игра: Call of Duty: Black Ops 6 (MW II / III)
-Платформа: PS5
-Статус: System HDR (1:1)
-Описание: Напрямую подтягивает все 3 шага системной калибровки PS5, ручная настройка нит внутри игры не нужна.
-Настройка: Яркость HDR = 0.50 (по умолч.) ? Пик совпадает 1:1 с системным меню PS5.
-Настройка: CAS (Резкость FidelityFX) = 0.50–0.80 ? Восстанавливает чёткость дальних целей после апскейлинга.
-Источник: HDRGamer | https://www.hdrgamer.com/2024/11/call-of-duty-black-ops-6-hdr-settings.html
-Источник: GamingTech | https://www.youtube.com/watch?v=65luEPaMoEc
-
-===
-
-Игра: Ratchet & Clank: Rift Apart
-Платформа: PS5
-Статус: System HDR (1:1)
-Описание: Движок Insomniac с честной поддержкой системного HGiG, нулевым чёрным и широким цветовым охватом (WCG).
-Настройка: Яркость / Контраст = 50 / 0 (по умолч.) ? Идеальный баланс неоновых частиц и глубокого космоса из коробки.
-Источник: HDTVTest | https://www.youtube.com/watch?v=eNMEu1SCHe8
-
-===
-
-Игра: Horizon Forbidden West
-Платформа: PS5
-Статус: System HDR (1:1)
-Описание: С патчами 1.18 и 1.0.43 добавлена честная привязка к системной калибровке PS5 (HGiG).
-Настройка: Яркость / Тени / Блики = 0 / 0 / 0 ? Все три ползунка по нулям дают точный заводской маппинг по калибровке консоли.
-Источник: GamingTech | https://www.youtube.com/watch?v=Kw8JuZEl8M0
-
-===
-
-Игра: Mortal Kombat 1
-Платформа: PS5
-Статус: System HDR (1:1)
-Описание: Автоматически использует системную калибровку PS5 без расхождений по пиковой яркости.
-Настройка: Яркость средних тонов = 50 ? Сохраняет сочность спецэффектов без пересвета арен.
-Источник: GamingTech | https://www.youtube.com/watch?v=ZljIGLOtor4
-
-===
-
-Игра: Hogwarts Legacy
-Платформа: PS5
-Статус: System HDR (1:1)
-Описание: Напрямую считывает системную калибровку PS5 и выводит в меню точное значение нит, установленное в консоли.
-Настройка: Калибровка HDR = По системе PS5 ? Ползунки автоматически встают на значения твоей консоли.
-Источник: HDR Analysis | https://www.youtube.com/watch?v=-p6TNxAV4P0
-
-===
-
-Игра: Alan Wake 2
-Платформа: PS5
-Статус: System HDR (1:1)
-Описание: Пиковая яркость жёстко привязана к системным настройкам PS5 и держит эталонный чёрный в ночном лесу.
-Настройка: Яркость игры (Brightness) = 50 ? Отвечает только за экспозицию средних тонов и бумажный белый (200 нит).
-Источник: HDRGamer | https://www.hdrgamer.com/2024/02/alan-wake-2-hdr-settings.html
-Источник: GamingTech | https://www.youtube.com/watch?v=LpkKiHgCArc
-  </script>
-
+  <!-- Single Non-Duplicated Header: HDRGG with HDR Gaming Guide strictly beneath it -->
   <header class="header">
     <div class="header-container">
-      <div class="logo">
-        <a href="./" class="logo-link">
-          <span class="logo-text">HDR<span class="logo-accent">.GG</span></span>
-          <span class="logo-badge">Console Guide</span>
-        </a>
+      <div class="brand">
+        <h1 class="brand-title">HDRGG</h1>
+        <div class="brand-subtitle">HDR Gaming Guide</div>
       </div>
-      <nav class="nav-links">
-        <span id="dataSourceBadge" class="data-source-pill">Загрузка базы...</span>
-        <a href="./" class="active">Каталог игр</a>
-      </nav>
     </div>
   </header>
 
+  <!-- Main Content -->
   <main class="main">
-    <section class="hero">
-      <h1 class="hero-title">HDRGG</h1>
-      <p class="hero-desc">
-        <strong>HDR Gaming Guide</strong> — честная база настроек графики и дисплея на консолях. Только проверенные параметры, пояснения «почему именно так» в один клик и аппаратные замеры экспертов.
-      </p>
-    </section>
-
-    <div class="controls-bar">
-      <input type="text" id="gameSearch" class="search-input" placeholder="Поиск по названию игры (например, Cyberpunk 2077, Spider-Man 2)..." autocomplete="off">
-      <div class="filter-tags">
-        <button class="filter-btn active" data-filter="all">Все игры</button>
-        <button class="filter-btn" data-filter="ps5">PlayStation 5</button>
-        <button class="filter-btn" data-filter="system-hdr">System HDR (1:1)</button>
-        <button class="filter-btn" data-filter="sdr-rec">SDR Рекомендован</button>
-        <button class="filter-btn" data-filter="native-ok">Native OK</button>
+    <!-- Controls: Search & Filters -->
+    <div class="controls-panel">
+      <input type="text" id="gameSearch" class="search-input" placeholder="Поиск по названию игры (например, Spider-Man, Cyberpunk, Alan Wake)..." autocomplete="off">
+      <div class="filter-pills">
+        <button class="filter-pill active" data-filter="all">Все</button>
+        <button class="filter-pill" data-filter="ps5">PS5</button>
+        <button class="filter-pill" data-filter="ps5-calibration">PS5 Calibration</button>
+        <button class="filter-pill" data-filter="hgig">HGIG</button>
+        <button class="filter-pill" data-filter="broken-hdr">Broken HDR</button>
       </div>
     </div>
 
+    <!-- Clean Games Grid (No Descriptions, Both PS5 Calibration & HGIG Badges on Supported Games) -->
     <div id="gamesGrid" class="games-grid"></div>
   </main>
 
   <footer class="footer">
-    <p>HDRGG (HDR Gaming Guide) • Честная база настроек дисплеев и консольных игр</p>
+    <p><strong>HDRGG</strong> • HDR Gaming Guide</p>
   </footer>
 
-  <button id="backToTop" class="back-to-top" title="Наверх" aria-label="Наверх">↑</button>
-
   <script>
-    function escapeHTML(str) {
-      return String(str || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-    }
-
-    function parsePlainTextDoc(rawText) {
-      const blocks = rawText.split(/^\s*===+\s*$/m).map(b => b.trim()).filter(Boolean);
-      return blocks.map(block => {
-        const game = {
-          title: '',
-          platform: 'PS5',
-          status: 'System HDR (1:1)',
-          summary: '',
-          page: '',
-          settings: [],
-          sources: []
-        };
-        const lines = block.split('\n').map(l => l.trim()).filter(Boolean);
-        lines.forEach(line => {
-          const colonIdx = line.indexOf(':');
-          if (colonIdx === -1) return;
-          const key = line.slice(0, colonIdx).trim().toLowerCase();
-          const val = line.slice(colonIdx + 1).trim();
-
-          if (key === 'игра' || key === 'название') {
-            game.title = val;
-          } else if (key === 'платформа') {
-            game.platform = val;
-          } else if (key === 'статус') {
-            game.status = val;
-          } else if (key === 'описание' || key === 'заметка') {
-            game.summary = val;
-          } else if (key === 'страница') {
-            game.page = val;
-          } else if (key === 'настройка') {
-            const [leftPart, whyPart] = val.split('?').map(s => s ? s.trim() : '');
-            const [paramName, paramVal] = (leftPart || '').split('=').map(s => s ? s.trim() : '');
-            if (paramName) {
-              game.settings.push({
-                name: paramName,
-                value: paramVal || '',
-                why: whyPart || ''
-              });
-            }
-          } else if (key === 'источник' || key === 'ссылка') {
-            const [label, url] = val.split('|').map(s => s ? s.trim() : '');
-            if (label && url) {
-              game.sources.push({ label, url });
-            }
-          }
-        });
-        return game;
-      }).filter(g => g.title);
-    }
-
-    function parseCSV(csvText) {
-      const rows = [];
-      let row = [];
-      let cur = '';
-      let inQuotes = false;
-      for (let i = 0; i < csvText.length; i++) {
-        const ch = csvText[i];
-        const next = csvText[i + 1];
-        if (inQuotes) {
-          if (ch === '"' && next === '"') {
-            cur += '"';
-            i++;
-          } else if (ch === '"') {
-            inQuotes = false;
-          } else {
-            cur += ch;
-          }
-        } else {
-          if (ch === '"') {
-            inQuotes = true;
-          } else if (ch === ',') {
-            row.push(cur.trim());
-            cur = '';
-          } else if (ch === '\n' || (ch === '\r' && next === '\n')) {
-            if (ch === '\r') i++;
-            row.push(cur.trim());
-            if (row.some(cell => cell !== '')) rows.push(row);
-            row = [];
-            cur = '';
-          } else {
-            cur += ch;
-          }
-        }
+    // Games Database: every game that supports PS5 system calibration has BOTH ps5-calibration and hgig tags and badges!
+    const games = [
+      {
+        id: "cyberpunk-2077",
+        title: "Cyberpunk 2077",
+        platform: "PS5",
+        statusTags: ["broken-hdr"],
+        badges: [
+          { type: "badge-ps5", label: "PS5" },
+          { type: "badge-broken", label: "Broken HDR" }
+        ],
+        url: "games/cyberpunk-2077/"
+      },
+      {
+        id: "spiderman-2",
+        title: "Marvel's Spider-Man 2",
+        platform: "PS5",
+        statusTags: ["ps5-calibration", "hgig"],
+        badges: [
+          { type: "badge-ps5", label: "PS5" },
+          { type: "badge-calibration", label: "PS5 Calibration" },
+          { type: "badge-hgig", label: "HGIG" }
+        ],
+        url: "https://www.hdrgamer.com/2023/10/marvels-spider-man-2-hdr-settings.html"
+      },
+      {
+        id: "spiderman-miles-morales",
+        title: "Spider-Man: Miles Morales / Remastered",
+        platform: "PS5",
+        statusTags: ["ps5-calibration", "hgig"],
+        badges: [
+          { type: "badge-ps5", label: "PS5" },
+          { type: "badge-calibration", label: "PS5 Calibration" },
+          { type: "badge-hgig", label: "HGIG" }
+        ],
+        url: "https://www.hdrgamer.com/2022/02/marvels-spider-man-miles-morales-hdr.html"
+      },
+      {
+        id: "god-of-war-ragnarok",
+        title: "God of War Ragnarök",
+        platform: "PS5",
+        statusTags: ["ps5-calibration", "hgig"],
+        badges: [
+          { type: "badge-ps5", label: "PS5" },
+          { type: "badge-calibration", label: "PS5 Calibration" },
+          { type: "badge-hgig", label: "HGIG" }
+        ],
+        url: "https://www.hdrgamer.com/2022/11/god-of-war-ragnarok-hdr-settings.html"
+      },
+      {
+        id: "ghost-of-tsushima",
+        title: "Ghost of Tsushima Director's Cut",
+        platform: "PS5",
+        statusTags: ["ps5-calibration", "hgig"],
+        badges: [
+          { type: "badge-ps5", label: "PS5" },
+          { type: "badge-calibration", label: "PS5 Calibration" },
+          { type: "badge-hgig", label: "HGIG" }
+        ],
+        url: "https://www.hdrgamer.com/2022/02/ghost-of-tsushima-ps5-hdr-settings.html"
+      },
+      {
+        id: "call-of-duty-bo6",
+        title: "Call of Duty: Black Ops 6 (MW II / III)",
+        platform: "PS5",
+        statusTags: ["ps5-calibration", "hgig"],
+        badges: [
+          { type: "badge-ps5", label: "PS5" },
+          { type: "badge-calibration", label: "PS5 Calibration" },
+          { type: "badge-hgig", label: "HGIG" }
+        ],
+        url: "https://www.hdrgamer.com/2024/11/call-of-duty-black-ops-6-hdr-settings.html"
+      },
+      {
+        id: "ratchet-and-clank",
+        title: "Ratchet & Clank: Rift Apart",
+        platform: "PS5",
+        statusTags: ["ps5-calibration", "hgig"],
+        badges: [
+          { type: "badge-ps5", label: "PS5" },
+          { type: "badge-calibration", label: "PS5 Calibration" },
+          { type: "badge-hgig", label: "HGIG" }
+        ],
+        url: "https://www.youtube.com/watch?v=eNMEu1SCHe8"
+      },
+      {
+        id: "horizon-forbidden-west",
+        title: "Horizon Forbidden West",
+        platform: "PS5",
+        statusTags: ["ps5-calibration", "hgig"],
+        badges: [
+          { type: "badge-ps5", label: "PS5" },
+          { type: "badge-calibration", label: "PS5 Calibration" },
+          { type: "badge-hgig", label: "HGIG" }
+        ],
+        url: "https://www.youtube.com/watch?v=Kw8JuZEl8M0"
+      },
+      {
+        id: "mortal-kombat-1",
+        title: "Mortal Kombat 1",
+        platform: "PS5",
+        statusTags: ["ps5-calibration", "hgig"],
+        badges: [
+          { type: "badge-ps5", label: "PS5" },
+          { type: "badge-calibration", label: "PS5 Calibration" },
+          { type: "badge-hgig", label: "HGIG" }
+        ],
+        url: "https://www.youtube.com/watch?v=ZljIGLOtor4"
+      },
+      {
+        id: "hogwarts-legacy",
+        title: "Hogwarts Legacy",
+        platform: "PS5",
+        statusTags: ["ps5-calibration", "hgig"],
+        badges: [
+          { type: "badge-ps5", label: "PS5" },
+          { type: "badge-calibration", label: "PS5 Calibration" },
+          { type: "badge-hgig", label: "HGIG" }
+        ],
+        url: "https://www.youtube.com/watch?v=-p6TNxAV4P0"
+      },
+      {
+        id: "alan-wake-2",
+        title: "Alan Wake 2",
+        platform: "PS5",
+        statusTags: ["ps5-calibration", "hgig"],
+        badges: [
+          { type: "badge-ps5", label: "PS5" },
+          { type: "badge-calibration", label: "PS5 Calibration" },
+          { type: "badge-hgig", label: "HGIG" }
+        ],
+        url: "https://www.hdrgamer.com/2024/02/alan-wake-2-hdr-settings.html"
       }
-      if (cur || row.length > 0) {
-        row.push(cur.trim());
-        if (row.some(cell => cell !== '')) rows.push(row);
-      }
+    ];
 
-      return rows.slice(1).map(cols => {
-        const [title, platform, status, summary, settingsRaw, sourcesRaw, page] = cols;
-        const settings = (settingsRaw || '').split(';').map(s => s.trim()).filter(Boolean).map(item => {
-          const [leftPart, whyPart] = item.split('?').map(x => x ? x.trim() : '');
-          const [name, value] = (leftPart || '').split('=').map(x => x ? x.trim() : '');
-          return { name: name || '', value: value || '', why: whyPart || '' };
-        }).filter(s => s.name);
-
-        const sources = (sourcesRaw || '').split(';').map(s => s.trim()).filter(Boolean).map(item => {
-          const [label, url] = item.split('|').map(x => x ? x.trim() : '');
-          return { label: label || '', url: url || '' };
-        }).filter(s => s.label && s.url);
-
-        return {
-          title: title || '',
-          platform: platform || 'PS5',
-          status: status || 'System HDR (1:1)',
-          summary: summary || '',
-          settings,
-          sources,
-          page: page || ''
-        };
-      }).filter(g => g.title);
-    }
-
-    function getStatusInfo(statusText) {
-      const lower = (statusText || '').toLowerCase();
-      if (lower.includes('sdr') || lower.includes('сломан')) {
-        return { badgeClass: 'badge-broken', filterTags: 'sdr-rec' };
-      }
-      if (lower.includes('1:1') || lower.includes('system')) {
-        return { badgeClass: 'badge-system', filterTags: 'system-hdr native-ok' };
-      }
-      return { badgeClass: 'badge-warn', filterTags: 'native-ok' };
-    }
-
-    function renderGames(games) {
+    function renderGames(list) {
       const grid = document.getElementById('gamesGrid');
       if (!grid) return;
 
-      grid.innerHTML = games.map((game) => {
-        const statusInfo = getStatusInfo(game.status);
-        const platformTag = (game.platform || 'ps5').toLowerCase();
+      grid.innerHTML = list.map(game => {
+        const isExternal = game.url.startsWith('http');
+        const targetAttr = isExternal ? 'target="_blank" rel="noopener noreferrer"' : '';
+        const tagsString = game.statusTags.join(' ');
 
-        const settingsHTML = game.settings && game.settings.length > 0
-          ? `<div class="mini-settings">
-              ${game.settings.map((s) => `
-                <div class="mini-setting-item">
-                  <div class="mini-setting-top">
-                    <span class="mini-name">
-                      ${escapeHTML(s.name)}
-                      ${s.why ? `<button type="button" class="why-mini-btn" aria-expanded="false" title="Почему так?">?</button>` : ''}
-                    </span>
-                    <span class="mini-val">${escapeHTML(s.value)}</span>
-                  </div>
-                  ${s.why ? `<div class="mini-why-box">${escapeHTML(s.why)}</div>` : ''}
-                </div>
-              `).join('')}
-            </div>`
-          : '';
-
-        const actionsHTML = [];
-        if (game.page) {
-          actionsHTML.push(`<a href="${escapeHTML(game.page)}" class="btn-card btn-card-primary">Подробный разбор →</a>`);
-        }
-        (game.sources || []).forEach(src => {
-          actionsHTML.push(`<a href="${escapeHTML(src.url)}" target="_blank" rel="noopener noreferrer" class="btn-card">${escapeHTML(src.label)} ↗</a>`);
-        });
+        const badgesHTML = game.badges.map(b =>
+          `<span class="badge ${b.type}">${b.label}</span>`
+        ).join('');
 
         return `
-          <article class="game-card" data-platform="${escapeHTML(platformTag)}" data-status="${statusInfo.filterTags}">
-            <div>
-              <div class="game-header">
-                <h2 class="game-title">${escapeHTML(game.title)}</h2>
-              </div>
+          <article class="game-card" data-platform="${game.platform.toLowerCase()}" data-tags="${tagsString}">
+            <div class="game-header">
+              <h2 class="game-title">${game.title}</h2>
               <div class="badges-row">
-                <span class="badge badge-platform">${escapeHTML(game.platform)}</span>
-                <span class="badge ${statusInfo.badgeClass}">${escapeHTML(game.status)}</span>
+                ${badgesHTML}
               </div>
-              <p class="game-summary">${escapeHTML(game.summary)}</p>
-              ${settingsHTML}
             </div>
-            <div class="card-sources">
-              ${actionsHTML.join('')}
+            <div class="card-action">
+              <a href="${game.url}" ${targetAttr} class="btn-game-open">Перейти к игре →</a>
             </div>
           </article>
         `;
       }).join('');
-
-      grid.querySelectorAll('.why-mini-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const item = btn.closest('.mini-setting-item');
-          const box = item ? item.querySelector('.mini-why-box') : null;
-          if (!box) return;
-          const isOpen = box.classList.toggle('open');
-          btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        });
-      });
     }
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      const badgeEl = document.getElementById('dataSourceBadge');
-      const docEl = document.getElementById('games-doc');
-      let games = [];
-
-      if (typeof GOOGLE_SHEET_CSV_URL === 'string' && GOOGLE_SHEET_CSV_URL.trim() !== '') {
-        try {
-          const res = await fetch(GOOGLE_SHEET_CSV_URL.trim(), { cache: 'no-store' });
-          if (res.ok) {
-            const csvText = await res.text();
-            games = parseCSV(csvText);
-            if (badgeEl && games.length > 0) {
-              badgeEl.textContent = 'Источник: Google Таблица (Live)';
-            }
-          }
-        } catch (err) {
-          console.warn('Не удалось загрузить Google Таблицу, используем локальный блок:', err);
-        }
-      }
-
-      if (games.length === 0 && docEl) {
-        games = parsePlainTextDoc(docEl.textContent);
-        if (badgeEl) badgeEl.textContent = 'Источник: Локальный блок';
-      }
-
+    document.addEventListener('DOMContentLoaded', () => {
       renderGames(games);
 
-      const backToTopBtn = document.getElementById('backToTop');
-      if (backToTopBtn) {
-        window.addEventListener('scroll', () => {
-          if (window.scrollY > 300) {
-            backToTopBtn.classList.add('visible');
-          } else {
-            backToTopBtn.classList.remove('visible');
-          }
-        });
-
-        backToTopBtn.addEventListener('click', () => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-      }
-
       const searchInput = document.getElementById('gameSearch');
-      const filterBtns = document.querySelectorAll('.filter-btn');
+      const filterPills = document.querySelectorAll('.filter-pill');
 
-      const filterGames = () => {
+      const applyFilters = () => {
         const query = (searchInput?.value || '').toLowerCase().trim();
-        const activeBtn = document.querySelector('.filter-btn.active');
-        const filterVal = (activeBtn?.dataset.filter || 'all').toLowerCase();
-        const gameCards = document.querySelectorAll('.game-card');
+        const activePill = document.querySelector('.filter-pill.active');
+        const filterVal = (activePill?.dataset.filter || 'all').toLowerCase();
 
-        gameCards.forEach((card) => {
+        const cards = document.querySelectorAll('.game-card');
+
+        cards.forEach(card => {
           const title = card.querySelector('.game-title')?.textContent.toLowerCase() || '';
-          const platform = (card.dataset.platform || '').toLowerCase().split(/\s+/);
-          const status = (card.dataset.status || '').toLowerCase().split(/\s+/);
+          const platform = (card.dataset.platform || '').toLowerCase();
+          const tags = (card.dataset.tags || '').toLowerCase().split(/\s+/);
 
           const matchesQuery = title.includes(query);
-          const matchesFilter =
-            filterVal === 'all' ||
-            platform.includes(filterVal) ||
-            status.includes(filterVal);
+          let matchesFilter = false;
+
+          if (filterVal === 'all') {
+            matchesFilter = true;
+          } else if (filterVal === 'ps5') {
+            matchesFilter = platform === 'ps5';
+          } else {
+            matchesFilter = tags.includes(filterVal);
+          }
 
           card.style.display = matchesQuery && matchesFilter ? 'flex' : 'none';
         });
       };
 
       if (searchInput) {
-        searchInput.addEventListener('input', filterGames);
+        searchInput.addEventListener('input', applyFilters);
       }
 
-      filterBtns.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          filterBtns.forEach((b) => b.classList.remove('active'));
-          btn.classList.add('active');
-          filterGames();
+      filterPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          filterPills.forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          applyFilters();
         });
       });
     });
